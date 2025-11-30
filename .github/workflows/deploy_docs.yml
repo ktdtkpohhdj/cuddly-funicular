@@ -36,6 +36,7 @@ jobs:
       - name: Build and deploy documentation
         run: |
           mkdocs build
-          git remote set-url origin https://x-access-token:${{ secrets.GH_PAGES_TOKEN }}@github.com/ktdtkpohhdj/cuddly-funicular.git
-          mkdocs gh-deploy --force --remote-name origin
-
+          mkdocs gh-deploy \
+            --force \
+            --remote-name origin \
+            --remote-url https://x-access-token:${{ secrets.GH_PAGES_TOKEN }}@github.com/ktdtkpohhdj/cuddly-funicular.git
