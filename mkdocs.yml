@@ -1,5 +1,9 @@
-site_name: Cuddly funicular
-site_url: https://ktdtkpohhdj.github.io/cuddly-funicular/
+site_name: “Cuddly Funicular”       # название сайта  
+site_url: https://ktdtkpohhdj.github.io/cuddly-funicular/   # URL после деплоя (если используется GH Pages)
+
+repo_url: https://github.com/ktdtkpohhdj/cuddly-funicular
+edit_uri: blob/site
+
 theme:
   name: material
 
