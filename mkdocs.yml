@@ -1,0 +1,16 @@
+site_name: Cuddly funicular
+site_url: https://ktdtkpohhdj.github.io/cuddly-funicular/
+theme:
+  name: material
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+
+nav:
+  - Start: index.md
+  - Example: example.md
+  - Practice: practice.md
