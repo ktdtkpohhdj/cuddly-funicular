@@ -3,27 +3,38 @@ name: Deploy MkDocs Documentation
 on:
   push:
     branches:
-      - site      # ← ветка, из которой деплоится документация
-  workflow_dispatch:  # позволяет запускать вручную
+      - site
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout docs branch
         uses: actions/checkout@v3
+        with:
+          ref: site
+          fetch-depth: 0
+
+      - name: Checkout main branch (source code)
+        uses: actions/checkout@v3
+        with:
+          repository: ktdtkpohhdj/cuddly-funicular
+          ref: main
+          path: source_code
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: 3.11
 
       - name: Install dependencies
-        run: |
-          pip install mkdocs-material mkdocstrings[python]
+        run: pip install mkdocs-material mkdocstrings[python]
 
       - name: Build and deploy documentation
         run: |
-          mkdocs gh-deploy --force
-
+          mkdocs build
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAGES_TOKEN }}@github.com/ktdtkpohhdj/cuddly-funicular.git
+          mkdocs gh-deploy --force --remote-name origin
