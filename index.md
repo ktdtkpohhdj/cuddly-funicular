@@ -11,33 +11,23 @@ has_children: true
 ---
 
 {: .warning }
-This documentation is under development.
+This documentation is under development. The purpose in do documentation automated.
 
 ## How to install
 
 Make sure you have a clean virtual environment with Python 3.10 or higher.
 
-## How to run
-
-
-### Quick start example
-
-
 ## Code structure
 
+This code does not contain any important information and is created solely for the practice of automating documentation through GitHub pages.
 
-### Samplers
+### CodeBase
 
 
-### Executors
+### Example
 
  
-### Runners
-
-
-### Parsers
-
-
+### Practice
 
 
 ## Contribution guidlines
@@ -54,32 +44,11 @@ We encourage contributions to the enchanted-surrogates package! Here are some gu
 - For longer term items to be integrated, e.g., Active Learning, suggest to use `Issues` followed by a branch. 
 - The configs folder in the source is to be kept for example config files and example cases that would be benefical to the wider community. Plugin-specific config files should be kept in the plugin repository.
 
-### Coding Style Standards
-
-The coding standard [PEP8](https://peps.python.org/pep-0008/) should be used. 
-Although we will likely lint with `flake` so don't worry too much about it. 
-
-
-### Testing
-#### Automated Testing at Pull Requests
-
-
-
-#### Linting Tests
-
-
-
-#### Machine Specific Tests
 
 
 
 ## About the project
-
-### License
-
-
-
-### Citation
+My
 
 
 
