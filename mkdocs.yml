@@ -1,20 +1,16 @@
-site_name: “Cuddly Funicular”       # название сайта  
-site_url: https://ktdtkpohhdj.github.io/cuddly-funicular/   # URL после деплоя (если используется GH Pages)
-
-repo_url: https://github.com/ktdtkpohhdj/cuddly-funicular
-edit_uri: blob/site
-
+site_name: Cuddly Funicular
 theme:
   name: material
 
 plugins:
   - search
   - mkdocstrings:
+      default_handler: python
       handlers:
         python:
-          paths: ["."]
+          paths: ["source_code/src"]
 
 nav:
   - Start: index.md
-  - Example: example.md
-  - Practice: practice.md
+  - example: example.md
+
