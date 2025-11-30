@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout docs branch (site)
+      - name: Checkout docs branch
         uses: actions/checkout@v3
         with:
           ref: site
@@ -31,11 +31,12 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install mkdocs-material mkdocstrings[python]
+        run: pip install mkdocs-material mkdocstrings[python]
 
       - name: Build and deploy documentation
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
-        run: mkdocs gh-deploy --force
+          GH_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
+        run: |
+          mkdocs build
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAGES_TOKEN }}@github.com/ktdtkpohhdj/cuddly-funicular.git
+          mkdocs gh-deploy --force --remote-name origin
