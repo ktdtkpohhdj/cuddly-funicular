@@ -12,7 +12,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths:
+          paths: ["."]
 
 nav:
   - Start: index.md
