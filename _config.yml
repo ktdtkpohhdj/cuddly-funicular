@@ -1,4 +1,4 @@
-title: Document
+dtitle: Document
 
 ### Theme
 # theme: jekyll-theme-cayman
@@ -27,4 +27,4 @@ callouts:
 
 
 include:
-  - index.html
+  - head_custom.html
