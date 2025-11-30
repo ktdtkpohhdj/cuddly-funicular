@@ -21,16 +21,13 @@ Make sure you have a clean virtual environment with Python 3.10 or higher.
 
 This code does not contain any important information and is created solely for the practice of automating documentation through GitHub pages.
 
-### CodeBase
-
-
 ### Example
 
 Contains the first example of automated documentation
  
 ### Practice
 
-
+Contains another one example of automated documentation
 
 ## About the project
 This is only for studying purpose project
