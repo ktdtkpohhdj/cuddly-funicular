@@ -8,7 +8,7 @@ plugins:
       default_handler: python
       handlers:
         python:
-          paths: ["source_code/src"]
+          paths: ["cuddy-funicular/src"]
 
 nav:
   - Start: index.md
