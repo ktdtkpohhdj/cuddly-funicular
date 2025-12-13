@@ -19,7 +19,8 @@ release = '2025'
 
 extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.napoleon',  # For Google and NumPy style docstrings
-    'sphinx.ext.viewcode']
+    'sphinx.ext.viewcode',
+    'myst_parser'        ]
 
 templates_path = ['_templates']
 exclude_patterns = []
