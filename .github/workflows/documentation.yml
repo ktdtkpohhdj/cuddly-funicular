@@ -15,16 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build Jekyll Site
+      - name: Build and Deploy Jekyll
         uses: helaili/jekyll-action@v2
         with:
-          profile: github
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          folder: _site
-
-
+          target_branch: gh-pages
