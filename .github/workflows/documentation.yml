@@ -2,7 +2,11 @@ name: Deploy Jekyll site to Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: 
+      - main
+      - site
+  pull_request:
+    types: [opened, reopened]
 
 permissions:
   contents: read
@@ -17,7 +21,7 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/jekyll-build-pages@v1
         with:
-          source: .
+          source: ./docs
           destination: ./_site
       - uses: actions/upload-pages-artifact@v3
 
