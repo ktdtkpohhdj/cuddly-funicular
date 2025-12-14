@@ -5,6 +5,8 @@ on:
     branches: 
       - main
       - site
+  pull_request:
+    types: [opened, reopened]
 
 permissions:
   contents: read
