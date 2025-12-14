@@ -1,24 +1,26 @@
 name: Build and Deploy Documentation
 
-on: 
-    push:
-        branches:
-            - site
+on:
+  push:
+    branches:
+      - site
 
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Build Jekyll Site
-        uses: helaili/jekyll-action@v2.2.2
-        with:
-            profile: github
+        uses: helaili/jekyll-action@v2
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.1
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-            ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-            branch: gh-pages
-            folder: _site
+          branch: gh-pages
+          folder: _site
+
