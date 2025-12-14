@@ -1,4 +1,4 @@
-dtitle: Document
+title: Enchanted surrogates
 
 ### Theme
 # theme: jekyll-theme-cayman
@@ -7,6 +7,11 @@ remote_theme: pmarsceill/just-the-docs
 ### Color scheme supports "light" (default) and "dark"
 color_scheme: light
 
+# Set a path/url to a logo that will be displayed instead of the title
+# logo: "/docs/img/logo.png"
+
+# Set a path/url to a favicon that will be displayed by the browser
+# favicon_ico: "/docs/img/favicon.ico"
 
 callouts_level: quiet # or loud
 callouts:
@@ -27,4 +32,4 @@ callouts:
 
 
 include:
-  - head_custom.html
+  - /docs/_includes/head_custom.html

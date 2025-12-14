@@ -1,0 +1,16 @@
+site_name: Cuddly Funicular
+theme:
+  name: material
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: ["cuddy-funicular/src"]
+
+nav:
+  - Start: index.md
+  - example: example.md
+
