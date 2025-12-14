@@ -1,4 +1,4 @@
-class Example():
+class Practice1():
     """
     Creates example code with comments.
 
