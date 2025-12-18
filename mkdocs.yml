@@ -1,16 +1,22 @@
-site_name: Cuddly Funicular
+site_name: Cuddly Funicular Docs
+
 theme:
   name: material
 
 plugins:
   - search
   - mkdocstrings:
-      default_handler: python
       handlers:
         python:
-          paths: ["cuddy-funicular/src"]
+          options:
+            docstring_style: google
+            show_source: true
+            separate_signature: true
+            merge_init_into_class: true
+            allow_inspection: false
+          paths:
+            - src
 
 nav:
   - Start: index.md
-  - example: example.md
 
