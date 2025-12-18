@@ -1,12 +1,9 @@
-name: Deploy Jekyll site to Pages
+name: Build MkDocs
 
 on:
   push:
-    branches: 
+    branches:
       - main
-      - site
-  pull_request:
-    types: [opened, reopened]
 
 permissions:
   contents: read
@@ -14,21 +11,23 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./docs
-          destination: ./_site
-      - uses: actions/upload-pages-artifact@v3
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: github-pages
-    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: |
+          pip install mkdocs mkdocstrings[python] mkdocs-material
+
+      - run: mkdocs build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
       - uses: actions/deploy-pages@v4
+
