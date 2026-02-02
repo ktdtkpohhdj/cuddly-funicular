@@ -20,4 +20,7 @@ plugins:
 nav:
   - Start: index.md
   - Example: example.md
+  - Plugins: 
+      - Plugin A: plugins/plugin_a/index.md
+  
 
