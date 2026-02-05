@@ -12,12 +12,15 @@ class Example():
 
     ANOTHER ONE TEST
 
+    ONE MORE
+
 
     """
 
     def __init__():
         """
         This a small code do nothing
+        ONE MORE TEST FOR THIS
         """
 
 
