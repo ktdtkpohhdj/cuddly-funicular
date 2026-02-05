@@ -30,5 +30,5 @@ class Example():
 
 
     def register_future():
-        """ Doesn't matter for random sampler TODO: Probably? """
+        """ I wanted to change this because I need to check if deployment still work """
         return None
