@@ -6,6 +6,8 @@ class Example():
 
     If this doesn't shown there is some error I need to handle
 
+    FAST CHECKJKKKK
+
 
     """
 
