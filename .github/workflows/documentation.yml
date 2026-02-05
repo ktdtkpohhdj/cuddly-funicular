@@ -1,4 +1,4 @@
-name: Deploy MkDocs to GitHub Pages
+name: Deploy Docs (GitHub Pages)
 
 on:
   push:
@@ -18,8 +18,10 @@ jobs:
       name: github-pages
 
     steps:
-      - name: Checkout
+      - name: Checkout site branch
         uses: actions/checkout@v4
+        with:
+          ref: site
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -30,7 +32,7 @@ jobs:
         run: |
           pip install mkdocs mkdocs-material mkdocstrings[python]
 
-      - name: Build MkDocs site
+      - name: Build MkDocs
         run: mkdocs build --clean
 
       - name: Upload Pages artifact
