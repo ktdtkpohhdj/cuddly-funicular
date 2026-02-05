@@ -22,12 +22,6 @@ jobs:
 
       - run: |
           pip install mkdocs mkdocstrings[python] mkdocs-material
-          
-      - name: Fetch cuddly_funicular_privat docs
-        run: |
-              git clone https://x-access-token:${{ secrets.PLUGIN_DOCS_TOKEN }}@github.com/ktdtkpohhdj/cuddly_funicular_privat.git /tmp/cuddly_funicular_privat
-              mkdir -p docs/plugins/cuddly-funicular
-              cp -R /tmp/cuddly_funicular_privat/docs/* docs/plugins/cuddly-funicular/
 
       - run: mkdocs build
 
