@@ -1,4 +1,4 @@
-name: Build MkDocs
+name: Deploy MkDocs to GitHub Pages
 
 on:
   push:
@@ -16,21 +16,22 @@ jobs:
 
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Install dependencies
         run: |
-          pip install mkdocs mkdocstrings[python] mkdocs-material
+          pip install mkdocs mkdocs-material mkdocstrings[python]
 
-      - name: Build site
-        run: mkdocs build
+      - name: Build MkDocs site
+        run: mkdocs build --clean
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -38,5 +39,4 @@ jobs:
           path: site
 
       - name: Deploy to GitHub Pages
-        id: deployment
         uses: actions/deploy-pages@v4
