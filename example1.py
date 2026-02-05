@@ -10,6 +10,8 @@ class Example():
 
     TEST ONCE AGAIN
 
+    ANOTHER ONE TEST
+
 
     """
 
@@ -34,5 +36,5 @@ class Example():
 
 
     def register_future():
-        """ Doesn't matter for random sampler TODO: Probably? """
+        """ AND THIS TO THE TEST """
         return None
