@@ -35,8 +35,7 @@ jobs:
         with:
           github_token: ${{ secrets.PLUGIN_DOCS_TOKEN }}
           repo: ktdtpohhdj/cuddly_funicular_privat
-          workflow: docsPr.yml
-          workflow_search: true
+          workflow: Build private documentation
           workflow_conclusion: success
           name: private-docs
           path: docs/private
