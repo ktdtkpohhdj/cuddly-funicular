@@ -1,17 +1,8 @@
----
-layout: default
-title: Start
-nav_order: 1
-has_children: true
----
-
 # Cuddly-funicular
 
 
----
-
-{: .warning }
-This documentation is under development. The purpose in do documentation automated.
+!!! notes
+    This documentation is under development. The purpose in do documentation automated.
 
 ## How to install
 
