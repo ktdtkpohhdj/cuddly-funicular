@@ -1,7 +1,7 @@
 # Cuddly-funicular
 
 
-!!! notes
+!!! note
     This documentation is under development. The purpose in do documentation automated.
 
 ## How to install
