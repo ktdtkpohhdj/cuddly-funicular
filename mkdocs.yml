@@ -4,7 +4,9 @@ theme:
 
 plugins:
   - search
-  - awesome-pages
+  - awesome-pages:
+      collapse_single_pages: false
+      recursive: true
   - mkdocstrings:
       default_handler: python
       handlers:
