@@ -14,7 +14,10 @@ plugins:
 nav:
   - Start: index.md
   - Example: example.md
-  - Privat:
+  - Private:
       - private/
   - Practice: practice.md
+  - Privat:
+      - privat/
+  
 
