@@ -37,6 +37,10 @@ jobs:
           token: ${{ secrets.PL_TOKEN }}
           ref: docs-dist
           path: docs/private
+      - name: Debug private docs
+        run: |
+          echo "Listing docs/private"
+          ls -R docs/private
 
       - name: Build MkDocs site
         run: mkdocs build --clean
