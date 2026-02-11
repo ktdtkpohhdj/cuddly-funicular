@@ -13,5 +13,5 @@ plugins:
 nav:
   - Start: index.md
   - Example: example.md
-  - Privat: privat/dist/index.html
+  - Privat: privat/and.md
 
