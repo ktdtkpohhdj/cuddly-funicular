@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ktdtpohhdj/cuddly_funicular_privat
-          token: ${{ secrets.PLUGIN_DOCS_TOKEN }}
+          token: ${{ secrets.PL_TOKEN }}
           ref: docs-dist
           path: docs/private
 
