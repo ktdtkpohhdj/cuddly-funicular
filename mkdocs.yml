@@ -4,6 +4,7 @@ theme:
 
 plugins:
   - search
+  - awesome-pages
   - mkdocstrings:
       default_handler: python
       handlers:
