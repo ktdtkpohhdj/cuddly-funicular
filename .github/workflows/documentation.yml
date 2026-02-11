@@ -30,17 +30,13 @@ jobs:
         run: |
           pip install mkdocs mkdocs-material mkdocstrings[python]
           
-      - name: Download private docs
-        uses: dawidd6/action-download-artifact@v3
+      - name: Checkout private docs
+        uses: actions/checkout@v4
         with:
-          github_token: ${{ secrets.PLUGIN_DOCS_TOKEN }}
-          repo: ktdtpohhdj/cuddly_funicular_privat
-          workflow: Build private documentation
-          workflow_search: true
-          workflow_conclusion: success
-          name: private-docs
+          repository: ktdtpohhdj/cuddly_funicular_privat
+          token: ${{ secrets.PLUGIN_DOCS_TOKEN }}
+          ref: docs-dist
           path: docs/private
-
 
       - name: Build MkDocs site
         run: mkdocs build --clean
