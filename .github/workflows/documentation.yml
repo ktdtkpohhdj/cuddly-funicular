@@ -33,7 +33,7 @@ jobs:
       - name: Checkout private docs
         uses: actions/checkout@v4
         with:
-          repository: ktdtpohhdj/cuddly_funicular_privat
+          repository: ktdtkpohhdj/cuddly_funicular_privat
           token: ${{ secrets.PL_TOKEN }}
           ref: docs-dist
           path: docs/private
