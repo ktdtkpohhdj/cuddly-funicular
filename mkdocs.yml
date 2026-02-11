@@ -15,6 +15,6 @@ nav:
   - Start: index.md
   - Example: example.md
   - Privat:
-      - privat/
+      - private/
   - Practice: practice.md
 
