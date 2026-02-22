@@ -7,15 +7,17 @@ private_plugins = [
 ]
 
 for plugin_path in private_plugins:
-    plugin_name = pathlib.Path(plugin_path).parent.name
+    plugin_path = pathlib.Path(plugin_path)
+    plugin_name = plugin_path.parent.name
     output_dir = pathlib.Path(f"docs/private/{plugin_name}")
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # pdoc принимает только путь к модулю
-    modules = pdoc(plugin_path)
+    # Создаём объект документации для всего пакета
+    module_doc = pdoc(str(plugin_path))  # pdoc возвращает объект Module
 
-    # Для каждого модуля создаём отдельный md-файл
-    for module in modules.values():
-        md_content = render.markdown(module)
-        output_file = output_dir / f"{module.name}.md"
-        output_file.write_text(md_content, encoding="utf-8")
+    # Генерация Markdown
+    md_content = render.markdown(module_doc)
+
+    # Сохраняем как один .md файл на плагин
+    output_file = output_dir / f"{plugin_name}.md"
+    output_file.write_text(md_content, encoding="utf-8")
