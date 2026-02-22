@@ -43,13 +43,13 @@ jobs:
 
       - name: Generate docs from private plugin
         run: |
-           mkdir -p docs/private
-           pymarkdoc -o docs/private/cuddly_funicular_privat.md private_plugin_temp/src
+           mkdir -p docs/private1
+           pymarkdoc -o docs/private1/cuddly_funicular_privat.md private_plugin_temp/src
 
           
       - name: Debug private docs
         run: |
-          echo "Listing docs/private"
+          echo "Listing docs/private1"
           ls -R docs/private1
           
       - name: Generate nav
