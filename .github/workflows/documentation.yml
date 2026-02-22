@@ -42,7 +42,7 @@ jobs:
 
       - name: Generate docs from private plugin
         run: |
-          pdoc --output-dir private_plugin_temp/docs_out --force private_plugin_temp/src
+          pdoc --output-dir private_plugin_temp/docs_out --format markdown private_plugin_temp/src
   
           mkdir -p docs/private1
           
