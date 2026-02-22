@@ -37,6 +37,11 @@ jobs:
           token: ${{ secrets.PL_TOKEN }}
           path: private_plugin_temp
 
+          
+      - name: Install dependencies
+        run: pip install pdoc mkdocs
+
+
       - name: Generate docs from private plugin
         run: python docs/generate_privat_docs.py
 
