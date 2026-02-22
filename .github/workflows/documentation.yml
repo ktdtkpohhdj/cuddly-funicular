@@ -44,6 +44,8 @@ jobs:
       - name: Generate docs from private plugin
         run: |
            mkdir -p docs/private1
+           export PYTHONPATH=$(pwd)/private_plugin_temp/src
+           python -c "import sys; print('\n'.join(sys.path))"
            pymarkdoc -o docs/private1/cuddly_funicular_privat.md private_plugin_temp/src
 
           
