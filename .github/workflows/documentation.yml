@@ -35,12 +35,24 @@ jobs:
         with:
           repository: ktdtkpohhdj/cuddly_funicular_privat
           token: ${{ secrets.PL_TOKEN }}
-          ref: docs-dist
-          path: docs/private
+          path: private_plugin_temp
+
+      - name: Install dependencies pdoc
+        run: pip install pdoc mkdocs
+
+      - name: Generate docs from private plugin
+        run: |
+          pdoc --output-dir private_plugin_temp/docs_out --force private_plugin_temp/src
+  
+          mkdir -p docs/private1
+          
+          cp -r private_plugin_temp/docs_out/* docs/private1/
+
+          
       - name: Debug private docs
         run: |
           echo "Listing docs/private"
-          ls -R docs/private
+          ls -R docs/private1
           
       - name: Generate nav
         run: python generate_nav.py
