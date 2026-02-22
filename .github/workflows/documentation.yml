@@ -38,12 +38,13 @@ jobs:
           path: private_plugin_temp
 
           
-      - name: Install dependencies
-        run: pip install pdoc mkdocs
-
+      - name: Install Markdown generator
+        run: pip install pymarkdoc
 
       - name: Generate docs from private plugin
-        run: python docs/generate_privat_docs.py
+        run: |
+           mkdir -p docs/private
+           pymarkdoc -o docs/private/cuddly_funicular_privat.md private_plugin_temp/src
 
           
       - name: Debug private docs
