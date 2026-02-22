@@ -38,7 +38,7 @@ jobs:
           path: private_plugin_temp
 
       - name: Generate docs from private plugin
-        run: python docs/generate_private_docs.py
+        run: python docs/generate_privat_docs.py
 
           
       - name: Debug private docs
