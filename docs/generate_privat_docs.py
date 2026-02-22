@@ -13,10 +13,10 @@ for plugin_path in private_plugins:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Создаём объект документации для всего пакета
-    module_doc = pdoc(str(plugin_path))  # pdoc возвращает объект Module
+    module_doc = pdoc(str(plugin_path))
 
-    # Генерация Markdown
-    md_content = render.markdown(module_doc)
+    # Генерация Markdown через render.render
+    md_content = render.render(module_doc, format="markdown")
 
     # Сохраняем как один .md файл на плагин
     output_file = output_dir / f"{plugin_name}.md"
