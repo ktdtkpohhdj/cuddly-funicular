@@ -10,13 +10,5 @@ plugins:
         python:
           paths: ["cuddy-funicular/src"]
 
-nav:
-  - Start: index.md
-  - Example: example.md
-  - Private:
-      - private/
-  - Practice: practice.md
-  - Privat:
-      - privat/
   
 
