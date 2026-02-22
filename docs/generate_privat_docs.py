@@ -1,18 +1,21 @@
 from pdoc import pdoc, render
 import pathlib
 
-# Путь к приватному модулю, который мы клонировали в CI
-module_path = pathlib.Path("private_plugin_temp/src")
+# Список приватных плагинов
+private_plugins = [
+    "private_plugin_temp/src",
+]
 
-# Генерируем документацию для всех модулей внутри src
-modules = pdoc(module_path, template_directory=None)
+for plugin_path in private_plugins:
+    plugin_name = pathlib.Path(plugin_path).parent.name
+    output_dir = pathlib.Path(f"docs/private/{plugin_name}")
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-# Папка, куда сохраняем Markdown
-output_dir = pathlib.Path("docs/private")
-output_dir.mkdir(parents=True, exist_ok=True)
+    # pdoc принимает только путь к модулю
+    modules = pdoc(plugin_path)
 
-for module in modules.values():
-    md_content = render.markdown(module)
-    # Сохраняем каждый модуль как отдельный md файл
-    output_file = output_dir / f"{module.name}.md"
-    output_file.write_text(md_content, encoding="utf-8")
+    # Для каждого модуля создаём отдельный md-файл
+    for module in modules.values():
+        md_content = render.markdown(module)
+        output_file = output_dir / f"{module.name}.md"
+        output_file.write_text(md_content, encoding="utf-8")
