@@ -37,16 +37,8 @@ jobs:
           token: ${{ secrets.PL_TOKEN }}
           path: private_plugin_temp
 
-      - name: Install dependencies pdoc
-        run: pip install pdoc mkdocs
-
       - name: Generate docs from private plugin
-        run: |
-          pdoc --output-dir private_plugin_temp/docs_out --format markdown private_plugin_temp/src
-  
-          mkdir -p docs/private1
-          
-          cp -r private_plugin_temp/docs_out/* docs/private1/
+        run: python docs/generate_private_docs.py
 
           
       - name: Debug private docs
