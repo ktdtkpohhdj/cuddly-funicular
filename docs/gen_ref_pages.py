@@ -1,9 +1,14 @@
 from pathlib import Path
 import ast
 import mkdocs_gen_files
+import importlib.util
+import sys
 
 SRC_PATH = Path("src")
 DOCS_PATH = Path("")  # генерируем прямо в docs/
+
+# Добавляем src в sys.path, чтобы импорты работали
+sys.path.insert(0, str(SRC_PATH.resolve()))
 
 for path in SRC_PATH.rglob("*.py"):
     if path.name == "__init__.py":
@@ -28,9 +33,12 @@ for path in SRC_PATH.rglob("*.py"):
     with mkdocs_gen_files.open(doc_path, "w") as f:
         f.write(f"# {module_path.name}\n\n")
 
-        # Пытаемся вставить импорт через ::: только если модуль реально импортируется
+        # Попытка вставить импорт через ::: только если модуль реально импортируется
         try:
-            __import__(module_name)
-            f.write(f"::: {module_name}\n")
+            spec = importlib.util.find_spec(module_name)
+            if spec is not None:
+                f.write(f"::: {module_name}\n")
+            else:
+                f.write(f"_Module could not be imported_\n")
         except ModuleNotFoundError:
             f.write(f"_Module could not be imported_\n")
