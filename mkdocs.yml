@@ -8,7 +8,7 @@ plugins:
       default_handler: python
       handlers:
         python:
-          paths: ["cuddy-funicular/src"]
+          paths: ["src"]
   - gen-files:
       scripts:
         - docs/gen_ref_pages.py
