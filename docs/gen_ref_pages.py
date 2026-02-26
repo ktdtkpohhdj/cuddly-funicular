@@ -14,6 +14,7 @@ for path in SRC_PATH.rglob("*.py"):
     if path.name == "__init__.py":
         continue
 
+    # Модуль относительно src
     module_path = path.relative_to(SRC_PATH).with_suffix("")
     module_name = ".".join(module_path.parts)
     doc_path = DOCS_PATH / module_path.with_suffix(".md")
@@ -23,7 +24,7 @@ for path in SRC_PATH.rglob("*.py"):
     if full_doc_path.exists():
         continue
 
-    # Проверяем наличие docstring
+    # Проверяем наличие docstring через AST
     with open(path, "r", encoding="utf-8") as f:
         tree = ast.parse(f.read())
     if not ast.get_docstring(tree):
@@ -33,7 +34,7 @@ for path in SRC_PATH.rglob("*.py"):
     with mkdocs_gen_files.open(doc_path, "w") as f:
         f.write(f"# {module_path.name}\n\n")
 
-        # Попытка вставить импорт через ::: только если модуль реально импортируется
+        # Пытаемся вставить ::: module_name только если модуль реально импортируется
         try:
             spec = importlib.util.find_spec(module_name)
             if spec is not None:
