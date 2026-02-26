@@ -9,6 +9,7 @@ plugins:
       handlers:
         python:
           paths: ["cuddy-funicular/src"]
+  - gen-files
 
   
 
