@@ -10,6 +10,9 @@ plugins:
         python:
           paths: ["cuddy-funicular/src"]
   - gen-files
+  
+hooks:
+  - docs/gen_ref_pages.py
 
   
 
