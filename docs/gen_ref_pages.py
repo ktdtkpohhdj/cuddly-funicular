@@ -3,7 +3,7 @@ import ast
 import mkdocs_gen_files
 import sys
 
-SRC_PATH = Path("src")
+SRC_PATH = Path("src/runner")
 DOCS_PATH = Path("docs")
 
 sys.path.insert(0, str(SRC_PATH.resolve()))
