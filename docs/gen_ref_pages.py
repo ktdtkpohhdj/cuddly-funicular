@@ -2,64 +2,107 @@ from pathlib import Path
 import ast
 import mkdocs_gen_files
 import sys
+import re
 
 SRC_PATH = Path("src/runner")
 DOCS_PATH = Path("docs")
 
 sys.path.insert(0, str(SRC_PATH.resolve()))
+print(f"[DEBUG] PYTHONPATH updated with: {SRC_PATH.resolve()}")
 
 def ensure_init_files():
-    """Creates missing __init__.py files"""
+    """Creates missing __init__.py files in all subdirectories"""
     for path in SRC_PATH.rglob("*"):
         if path.is_dir() and path != SRC_PATH:
             init_file = path / "__init__.py"
             if not init_file.exists():
                 init_file.touch()
+                print(f"[DEBUG] Created missing __init__.py: {init_file}")
+            else:
+                print(f"[DEBUG] __init__.py already exists: {init_file}")
 
 ensure_init_files()
 
 def find_existing_md(module_parts, base_name):
-    """Расширенный поиск существующего .md файла"""
+    """Finds an existing Markdown file for the module, with multiple strategies"""
     direct_path = DOCS_PATH / Path(*module_parts).with_suffix(".md")
     if direct_path.exists():
+        print(f"[DEBUG] Found MD via direct path: {direct_path}")
         return direct_path
 
     root_path = DOCS_PATH / f"{base_name}.md"
     if root_path.exists():
+        print(f"[DEBUG] Found MD via base_name at root: {root_path}")
         return root_path
     
     for md_file in DOCS_PATH.rglob(f"{base_name}.md"):
+        print(f"[DEBUG] Found MD via recursive search: {md_file}")
         return md_file
     
     full_name = "_".join(module_parts)
     full_name_path = DOCS_PATH / f"{full_name}.md"
     if full_name_path.exists():
+        print(f"[DEBUG] Found MD via joined module parts: {full_name_path}")
         return full_name_path
     
     if len(module_parts) >= 2:
         last_two = "_".join(module_parts[-2:])
         last_two_path = DOCS_PATH / f"{last_two}.md"
         if last_two_path.exists():
+            print(f"[DEBUG] Found MD via last two module parts: {last_two_path}")
             return last_two_path
     
     if len(module_parts) >= 2:
         nested_path = DOCS_PATH / module_parts[-2] / f"{base_name}.md"
         if nested_path.exists():
+            print(f"[DEBUG] Found MD via nested folder structure: {nested_path}")
             return nested_path
     
+    print(f"[DEBUG] No existing MD file found for module: {'.'.join(module_parts)}")
     return None
 
 def is_already_documented(md_path, module_name):
+    """Check if module is already documented in the markdown file"""
     if not md_path or not md_path.exists():
+        print(f"[DEBUG] MD path does not exist or is None: {md_path}")
         return False
     
     with open(md_path, "r", encoding="utf-8") as f:
         content = f.read()
     
-    return f"::: {module_name}" in content
+    patterns = [
+        rf"::: {module_name}\s*\n", 
+        rf"::: {module_name}\s*:",
+        rf"::: {module_name}\s*{{",
+        rf"::: {re.escape(module_name)}\b"
+    ]
+    
+    for pattern in patterns:
+        if re.search(pattern, content, re.MULTILINE):
+            print(f"[DEBUG] Module '{module_name}' already documented in {md_path} (matched pattern: {pattern})")
+            return True
+    
+    header_patterns = [
+        rf"## Module `{module_name}`",
+        rf"## `{module_name}`",
+        rf"# {module_name}",
+        rf"# Module {module_name}",
+    ]
+    
+    for pattern in header_patterns:
+        if pattern in content:
+            print(f"[DEBUG] Module '{module_name}' might be documented (found header: {pattern})")
+    
+    print(f"[DEBUG] Module '{module_name}' NOT found in {md_path}")
+    return False
 
+def get_module_docstring_content(module_name):
+    """Get the content to add for a module"""
+    return f"\n\n## Module `{module_name}`\n\n::: {module_name}\n    options:\n        show_submodules: true\n"
 
-for path in SRC_PATH.rglob("*.py"):
+processed_modules = set()
+
+for path in sorted(SRC_PATH.rglob("*.py")):  # сортируем для консистентности
     if path.name == "__init__.py":
         continue
     
@@ -67,38 +110,78 @@ for path in SRC_PATH.rglob("*.py"):
     module_parts = rel_path.with_suffix("").parts
     module_name = ".".join(module_parts)
     base_name = path.stem
-    
-    # Проверяем наличие docstring
-    with open(path, "r", encoding="utf-8") as f:
-        tree = ast.parse(f.read())
-    if not ast.get_docstring(tree):
+
+    print(f"\n[DEBUG] Processing file: {path}")
+    print(f"[DEBUG] Module name: {module_name}, Base name: {base_name}")
+
+    if module_name in processed_modules:
+        print(f"[DEBUG] Module already processed, skipping: {module_name}")
         continue
-    
+
+    # Check if the module has a docstring
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            tree = ast.parse(f.read())
+        doc_exists = ast.get_docstring(tree) is not None
+        print(f"[DEBUG] Module has docstring: {doc_exists}")
+        if not doc_exists:
+            continue
+    except Exception as e:
+        print(f"[DEBUG] Failed to parse {path}: {e}")
+        continue
+
+    # Attempt to import the module
     try:
         __import__(module_name)
-    except ImportError:
+        print(f"[DEBUG] Import OK: {module_name}")
+    except ImportError as e:
+        print(f"[DEBUG] Import FAILED: {module_name} -> {e}")
         continue
-    
-    # Ищем существующий .md файл
+
+    # Find existing Markdown file
     existing_md = find_existing_md(module_parts, base_name)
     
     if existing_md:
-        # Проверяем, не документирован ли уже модуль
         if is_already_documented(existing_md, module_name):
+            print(f"[DEBUG] Module already documented, skipping: {module_name}")
+            processed_modules.add(module_name)
             continue
         
-        # Добавляем в конец существующего файла
+        # Append to existing file
+        print(f"[DEBUG] Appending documentation to existing MD: {existing_md}")
+        
+        with open(existing_md, "r", encoding="utf-8") as f:
+            content = f.read().strip()
+        
         with mkdocs_gen_files.open(existing_md.relative_to(DOCS_PATH), "a") as f:
-            f.write(f"\n\n## Модуль `{module_name}`\n\n")
-            f.write(f"::: {module_name}\n")
+            if content:
+                f.write("\n\n---\n")
+            f.write(get_module_docstring_content(module_name))
+        
+        processed_modules.add(module_name)
     
     else:
-        # Создаем новый файл с сохранением структуры папок
+        # Create new Markdown file
         doc_path = rel_path.with_suffix(".md")
         full_doc_path = DOCS_PATH / doc_path
-        
         full_doc_path.parent.mkdir(parents=True, exist_ok=True)
-        
+        print(f"[DEBUG] Creating new MD file: {full_doc_path}")
+
         with mkdocs_gen_files.open(full_doc_path.relative_to(DOCS_PATH), "w") as f:
             f.write(f"# {base_name}\n\n")
             f.write(f"::: {module_name}\n")
+        
+        processed_modules.add(module_name)
+
+print("\n[DEBUG] Checking for duplicate module documentation...")
+for md_file in DOCS_PATH.rglob("*.md"):
+    if md_file.is_file():
+        with open(md_file, "r", encoding="utf-8") as f:
+            content = f.read()
+        
+        modules_found = set(re.findall(r'::: ([\w.]+)', content))
+        
+        if len(modules_found) < len(re.findall(r'::: [\w.]+', content)):
+            print(f"[WARNING] Possible duplicates in {md_file}")
+
+print("\n[DEBUG] Documentation generation finished.")
