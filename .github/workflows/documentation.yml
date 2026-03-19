@@ -63,7 +63,7 @@ jobs:
            done
 
       - name: Generate plugin docs
-        run: python scripts/generate_plugin_docs.py    
+        run: python docs/generate_plugin_docs.py    
 
       - name: Build MkDocs site
         run: mkdocs build --clean
