@@ -1,49 +1,54 @@
-import yaml
 from pathlib import Path
-import re
+import yaml
 
 CONFIG_PATH = Path("plugins.yml")
 DOCS_DIR = Path("docs/plugins")
 
-MKDOCS_BLOCK_PATTERN = re.compile(r":::.*")
+
+def get_modules(src_path, base_module):
+    modules = []
+
+    for py_file in src_path.rglob("*.py"):
+        if py_file.name == "__init__.py":
+            continue
+
+        rel = py_file.relative_to(src_path).with_suffix("")
+        module_path = ".".join(rel.parts)
+
+        modules.append(f"{base_module}.{module_path}")
+
+    return modules
 
 
-def update_md_file(md_path: Path, module: str):
+def update_md_file(md_path: Path, modules: list[str]):
+    content = md_path.read_text() if md_path.exists() else ""
+
+    blocks = "\n\n".join(
+    f"""::: {m}
+    options:
+      show_source: false
     """
-    Обновляет или добавляет mkdocstrings блок в .md файл
-    """
+    for m in modules)
 
-    if not md_path.exists():
-        print(f"[WARN] File not found: {md_path}")
-        return
+    new_content = f"{content.strip()}\n\n{blocks}\n"
 
-    content = md_path.read_text()
-
-    new_block = f"::: {module}"
-
-    if "::: " in content:
-        # заменяем существующий блок
-        content = MKDOCS_BLOCK_PATTERN.sub(new_block, content)
-        print(f"[UPDATE] {md_path}")
-    else:
-        # добавляем в конец
-        content = content.strip() + f"\n\n{new_block}\n"
-        print(f"[ADD] {md_path}")
-
-    md_path.write_text(content)
+    md_path.write_text(new_content)
+    print(f"[UPDATE] {md_path}")
 
 
 def main():
-    with open(CONFIG_PATH, "r") as f:
+    with open(CONFIG_PATH) as f:
         config = yaml.safe_load(f)
 
     for plugin in config["plugins"]:
         name = plugin["name"]
-        module = plugin["module"]
+        module = plugin["module"].split(".")[0]  # cdl_pr
+        src_path = Path("plugins") / name / plugin["src_path"] / module
+
+        modules = get_modules(src_path, module)
 
         md_file = DOCS_DIR / f"{name}.md"
-
-        update_md_file(md_file, module)
+        update_md_file(md_file, modules)
 
 
 if __name__ == "__main__":
