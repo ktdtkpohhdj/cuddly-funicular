@@ -58,6 +58,13 @@ jobs:
       - name: Generate plugin docs
         run: python docs/generate_plugin_docs.py    
 
+      - name: Debug plugin structure
+        run: |
+           ls -R plugins
+      - name: Test import
+        run: |
+           python -c "import cdl_pr; print(cdl_pr)"
+
       - name: Build MkDocs site
         run: mkdocs build --clean
 
