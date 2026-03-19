@@ -45,6 +45,11 @@ jobs:
            done
 
            echo "PYTHONPATH=$PY_PATH" >> $GITHUB_ENV
+      
+      - name: Check PYTHONPATH
+        run: |
+           echo "$PYTHONPATH"
+
       - name: Debug PYTHONPATH
         run: |
            echo $PYTHONPATH
