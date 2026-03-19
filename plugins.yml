@@ -1,0 +1,10 @@
+plugins:
+  - name: mishka
+    repo: DIGIfusion/enchanted-plugin-mishka
+    module: enchanted_plugin_mishka
+    src_path: src
+
+  - name: dragon
+    repo: DIGIfusion/enchanted-plugin-dragon
+    module: enchanted_plugin_dragon
+    src_path: src
