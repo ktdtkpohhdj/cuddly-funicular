@@ -45,6 +45,10 @@ jobs:
            done
 
            echo "PYTHONPATH=$PY_PATH" >> $GITHUB_ENV
+      - name: Debug PYTHONPATH
+        run: |
+           echo $PYTHONPATH
+           python -c "import sys; print('\n'.join(sys.path))"
 
       - name: Generate plugin docs
         run: python docs/generate_plugin_docs.py    
