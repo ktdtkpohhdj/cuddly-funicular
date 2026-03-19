@@ -33,7 +33,7 @@ jobs:
       - name: Checkout plugins from config
         env:
           GH_PAT: ${{ secrets.PL_TOKEN }}
-        run: python scripts/checkout_plugins.py
+        run: python docs/checkout_plugins.py
 
           
       - name: Add plugins to PYTHONPATH
