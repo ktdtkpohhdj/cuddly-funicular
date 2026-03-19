@@ -36,11 +36,15 @@ jobs:
         run: python docs/checkout_plugins.py
 
           
-      - name: Add plugins to PYTHONPATH
+      - name: Set PYTHONPATH
         run: |
-          for dir in plugins/*; do
-           echo "PYTHONPATH=$PYTHONPATH:$(pwd)/$dir/src" >> $GITHUB_ENV
+           PY_PATH=""
+
+           for dir in plugins/*; do
+             PY_PATH="$PY_PATH:$(pwd)/$dir/src"
            done
+
+           echo "PYTHONPATH=$PY_PATH" >> $GITHUB_ENV
 
       - name: Generate plugin docs
         run: python docs/generate_plugin_docs.py    
