@@ -15,12 +15,11 @@ def main():
         name = plugin["name"]
         repo = plugin["repo"]
 
-        cmd = (
-            f'git -c http.extraheader="AUTHORIZATION: bearer {token}" '
-            f'clone https://github.com/{repo}.git plugins/{name}'
-        )
+        cmd = (f'git clone https://x-access-token:{token}@github.com/{repo}.git plugins/{name}')
+        
 
         print(f"[CLONE] {repo}")
+        print(cmd)
         os.system(cmd)
 
 
