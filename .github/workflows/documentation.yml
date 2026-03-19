@@ -28,20 +28,42 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install mkdocs mkdocs-material mkdocstrings[python] mkdocs-gen-files
+          pip install mkdocs mkdocs-material mkdocstrings[python] mkdocs-gen-files pyyaml
           
-      - name: Checkout private docs
-        uses: actions/checkout@v4
-        with:
-          repository: ktdtkpohhdj/cuddly_funicular_privat
-          token: ${{ secrets.PL_TOKEN }}
-          path: private_plugin_temp
+      - name: Checkout plugins from config
+        env:
+            GH_PAT: ${{ secrets.PL_TOKEN }}
+        run: |
+            python <<EOF
+            import yaml
+            import os
+
+            token = os.environ["GH_PAT"]
+
+            with open("plugins.yml") as f:
+            config = yaml.safe_load(f)
+
+            for plugin in config["plugins"]:
+                name = plugin["name"]
+                repo = plugin["repo"]
+
+                cmd = (
+                  f'git -c http.extraheader="AUTHORIZATION: bearer {token}" '
+                  f'clone https://github.com/{repo}.git plugins/{name}'
+                )
+
+            os.system(cmd)
+            EOF
 
           
-      - name: Add private plugin to PYTHONPATH
-        run: echo "PYTHONPATH=$(pwd)/private_plugin_temp/src" >> $GITHUB_ENV
+      - name: Add plugins to PYTHONPATH
+        run: |
+          for dir in plugins/*; do
+           echo "PYTHONPATH=$PYTHONPATH:$(pwd)/$dir/src" >> $GITHUB_ENV
+           done
 
-          
+      - name: Generate plugin docs
+        run: python scripts/generate_plugin_docs.py    
 
       - name: Build MkDocs site
         run: mkdocs build --clean
