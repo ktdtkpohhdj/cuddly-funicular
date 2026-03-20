@@ -9,6 +9,7 @@ This is practice page with tasks
 \]
 
 Inline variant
+
 \( \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi} \)
 
 More than one expession
