@@ -33,6 +33,7 @@ jobs:
              mkdocs-material==9.5.20 \
              mkdocstrings[python]==0.24.0 \
              mkdocs-autorefs==0.5.0 \
+             griffe==0.38.0 \
              pymdown-extensions==10.7 \
              mkdocs-gen-files==0.5.0 \
              h5py==3.16.0
