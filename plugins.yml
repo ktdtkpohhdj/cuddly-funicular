@@ -1,10 +1,15 @@
 plugins:
   - name: cuddly_funicular_privat
     repo: ktdtkpohhdj/cuddly_funicular_privat
-    modules: cuddly_funicular_privat
+    modules: 
+      - cuddly_funicular_privat
     src_path: src
 
   - name: cdl_pr
     repo: ktdtkpohhdj/cdl_pr
-    modules: cdl_pr
+    modules: 
+      - cdl_pr.file
+      - cdl_pr.cdl_pr
+    docs:
+      - README.md
     src_path: src
