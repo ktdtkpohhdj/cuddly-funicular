@@ -49,8 +49,6 @@ def main():
 
         sections = []
 
-        # --- TITLE ---
-        sections.append(f"# {name}\n")
 
         # --- DOCS (README etc) ---
         if "docs" in plugin:
@@ -62,7 +60,6 @@ def main():
         if "modules" in plugin:
             api_blocks = build_api_blocks(plugin["modules"])
             if api_blocks:
-                sections.append("## API Reference\n")
                 sections.append(api_blocks)
 
         final_content = "\n\n".join(sections).strip() + "\n"
