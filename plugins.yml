@@ -6,5 +6,5 @@ plugins:
 
   - name: cdl_pr
     repo: ktdtkpohhdj/cdl_pr
-    modules: cdl_pr.cdl_pr
+    modules: cdl_pr
     src_path: src
