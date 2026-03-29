@@ -6,18 +6,17 @@ DOCS_DIR = Path("docs/plugins")
 
 
 def get_modules(src_path, base_module):
-    modules = []
+    modules = set()
+    modules.add(base_module)
 
     for py_file in src_path.rglob("*.py"):
-        if py_file.name == "__init__.py":
-            continue
-
         rel = py_file.relative_to(src_path).with_suffix("")
         module_path = ".".join(rel.parts)
 
-        modules.append(f"{base_module}.{module_path}")
+        full_module = f"{base_module}.{module_path}"
+        modules.add(full_module)
 
-    return modules
+    return sorted(modules)
 
 
 def read_markdown_files(plugin_root: Path, docs: list[str]) -> str:
