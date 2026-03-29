@@ -36,7 +36,6 @@ def read_markdown_files(plugin_root: Path, docs: list[str]) -> str:
 def update_md_file(md_path: Path, modules: list[str], extra_md: str = ""):
     content = md_path.read_text() if md_path.exists() else ""
 
-    # --- API блоки (как было) ---
     blocks = "\n\n".join(
         f"""::: {m}
     options:
@@ -45,7 +44,6 @@ def update_md_file(md_path: Path, modules: list[str], extra_md: str = ""):
         for m in modules
     )
 
-    # --- Собираем итог ---
     parts = [content.strip()] if content else []
 
     if extra_md:
@@ -70,7 +68,6 @@ def main():
 
         all_modules = []
 
-        # --- Поддержка нескольких модулей ---
         for module_entry in plugin.get("modules", []):
             module_name = module_entry.split(".")[0]
             src_path = plugin_root / module_entry.replace(".", "/")
@@ -81,7 +78,6 @@ def main():
             else:
                 print(f"[WARN] Missing module path: {src_path}")
 
-        # --- Чтение md файлов ---
         extra_md = ""
         if "docs" in plugin:
             extra_md = read_markdown_files(plugin_root, plugin["docs"])
