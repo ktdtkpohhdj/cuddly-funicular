@@ -5,67 +5,50 @@ CONFIG_PATH = Path("plugins.yml")
 DOCS_DIR = Path("docs/plugins")
 
 
-def build_api_blocks(modules: list[str]) -> str:
-    blocks = []
+def get_modules(src_path, base_module):
+    modules = []
 
-    for m in modules:
-        blocks.append(
-            f"""### `{m}`
+    for py_file in src_path.rglob("*.py"):
+        if py_file.name == "__init__.py":
+            continue
 
-::: {m}
+        rel = py_file.relative_to(src_path).with_suffix("")
+        module_path = ".".join(rel.parts)
+
+        modules.append(f"{base_module}.{module_path}")
+
+    return modules
+
+
+def update_md_file(md_path: Path, modules: list[str]):
+    content = md_path.read_text() if md_path.exists() else ""
+
+    blocks = "\n\n".join(
+    f"""::: {m}
     options:
       show_source: false
-"""
-        )
+    """
+    for m in modules)
 
-    return "\n\n".join(blocks)
+    new_content = f"{content.strip()}\n\n{blocks}\n"
 
-
-def build_markdown_blocks(plugin_root: Path, docs_list: list[str]) -> str:
-    parts = []
-
-    for doc in docs_list:
-        doc_path = plugin_root / doc
-
-        if doc_path.exists():
-            content = doc_path.read_text()
-            parts.append(content)
-        else:
-            print(f"[WARN] Missing doc: {doc_path}")
-
-    return "\n\n".join(parts)
+    md_path.write_text(new_content)
+    print(f"[UPDATE] {md_path}")
 
 
 def main():
     with open(CONFIG_PATH) as f:
         config = yaml.safe_load(f)
 
-    DOCS_DIR.mkdir(parents=True, exist_ok=True)
-
     for plugin in config["plugins"]:
         name = plugin["name"]
-        plugin_root = Path("plugins") / name
+        module = plugin["module"].split(".")[0]
+        src_path = Path("plugins") / name / plugin["src_path"] / module
+
+        modules = get_modules(src_path, module)
+
         md_file = DOCS_DIR / f"{name}.md"
-
-        sections = []
-
-
-        # --- DOCS (README etc) ---
-        if "docs" in plugin:
-            md_content = build_markdown_blocks(plugin_root, plugin["docs"])
-            if md_content:
-                sections.append(md_content)
-
-        # --- API ---
-        if "modules" in plugin:
-            api_blocks = build_api_blocks(plugin["modules"])
-            if api_blocks:
-                sections.append(api_blocks)
-
-        final_content = "\n\n".join(sections).strip() + "\n"
-
-        md_file.write_text(final_content)
-        print(f"[GENERATED] {md_file}")
+        update_md_file(md_file, modules)
 
 
 if __name__ == "__main__":
