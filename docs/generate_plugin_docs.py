@@ -42,10 +42,16 @@ def main():
 
     for plugin in config["plugins"]:
         name = plugin["name"]
-        module = plugin["module"].split(".")[0]
-        src_path = Path("plugins") / name / plugin["src_path"] / module
+        module_full = plugin["module"]
+        parts = module_full.split(".")
+        base_module = parts[0]
 
-        modules = get_modules(src_path, module)
+        src_path = Path("plugins") / name / plugin["src_path"] / base_module
+
+        if len(parts) == 1:
+          modules = get_modules(src_path, base_module)
+        else:
+          modules = [module_full]
 
         md_file = DOCS_DIR / f"{name}.md"
         update_md_file(md_file, modules)
