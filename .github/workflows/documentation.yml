@@ -28,7 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install mkdocs-material mkdocstrings-python
+          pip install mkdocs-material mkdocstrings-python mkdocs-gen-files pyyaml
           
       - name: Checkout plugins from config
         env:
