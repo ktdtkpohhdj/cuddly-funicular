@@ -29,10 +29,12 @@ jobs:
       - name: Install dependencies
         run: |
           pip install \
-             "mkdocs==1.6.1" \
-             "mkdocs-material==9.7.6" \
-             "mkdocstrings-python==2.0.3" \
-             "mkdocs-gen-files==0.6.1"
+              mkdocs==1.6.1 \
+              mkdocs-material==9.7.6 \
+              mkdocstrings-python==2.0.3 \
+              mkdocs-gen-files==0.6.1 \
+              pyyaml \
+              h5py 
           
       - name: Checkout plugins from config
         env:
